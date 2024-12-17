@@ -31,6 +31,9 @@ end
 function lol:SetPath(newpath)
     if newpath ~= "" then
         path = newpath .. "/"
+        if not isfolder(path) then
+            makefolder(path)
+        end
         return path
     end
 end
