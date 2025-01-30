@@ -11,23 +11,6 @@ local adapt = function(expected)
     return "null"
 end
 
-local function tableToJSON(tab)
-    local str = "{"
-    for i, v in pairs(tab) do
-        if type(v) ~= "table" then
-            str = str .. '"' .. i .. '"' .. ": " .. adapt(v) .. ","
-        else
-            local ohio = tableToJSON(v)
-            str = str .. '"' .. i .. '"' .. ": " .. ohio .. ","
-        end
-    end
-    if str:sub(-1) == "," then
-        str = str:sub(1, -2)
-    end
-    str = str .. "}"
-    return str
-end
-
 function lol:SetPath(newpath)
     if newpath ~= "" then
         path = newpath .. "/"
@@ -47,7 +30,7 @@ function lol:SaveData(tab)
     else
         data = tab
     end
-    writefile(path .. "data", tableToJSON(data))
+    writefile(path .. "data", http:JSONEncode(data))
 end
 
 function lol:GetData()
